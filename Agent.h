@@ -6,6 +6,12 @@
 
 //class IBehaviour;
 
+enum Direction
+{
+    UP, DOWN, LEFT, RIGHT
+};
+
+
 class Agent{
 public:
     Agent();
@@ -46,7 +52,7 @@ public:
 private:
     Vector2 _position {0.0f, 0.0f};
     Vector2 _velocity;
-    float _maxSpeed{20.0f};
+    float _moveSpeed{150.0f};
     float _radius {5.0f};
     Color _colour {BLUE};
 
@@ -62,4 +68,5 @@ private:
     int frame{};
     const int maxFrame{4};
     const float updateTime{1.0f/12.0f};
+    Direction _direction;
 };

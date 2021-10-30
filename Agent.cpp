@@ -1,6 +1,7 @@
 #include "Agent.h"
 #include "raymath.h"
 //#include "IBehaviour.h"
+#include <iostream>
 
 Agent::Agent()
 {
@@ -40,10 +41,36 @@ void Agent::Update(float deltaTime)
     {
         frame++;
         runningTime = 0.0f;
-        if (frame > maxFrame) frame = 0;
+        if (frame > maxFrame) 
+            frame = 0;
     }
     
-    Vector2 force = {0,0};
+    // get keyboard input just to test out the direction
+    // matches the animation
+    if (IsKeyDown(KEY_W))
+    {
+        _direction = UP;
+        _position.y -= _moveSpeed * deltaTime;
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        _direction = DOWN;
+        _position.y += _moveSpeed * deltaTime;
+    }
+    if (IsKeyDown(KEY_A))
+    {
+        _direction = LEFT;
+        _position.x -= _moveSpeed * deltaTime;
+        std::cout << "x: "  << _position.x << std::endl;
+
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        _direction = RIGHT;
+        _position.x += _moveSpeed * deltaTime;
+    }
+    
+    //Vector2 force = {0,0};
 
     // // for each behaviour in the behavious list
     // for (auto b : _behaviours)
@@ -62,16 +89,32 @@ void Agent::Update(float deltaTime)
 
     // _position = Vector2Add(_position, _velocity);
 
+
+
 }
 
 void Agent::Draw()
 {
-    Rectangle bunnyAnimDown{_width/_numberOfFrames * frame, 0.0f, _width/_numberOfFrames, _height/_numberOfFrames};
-    Rectangle bunnyAnimUp{_width/_numberOfFrames * frame, 21.0f, _width/_numberOfFrames, _height/_numberOfFrames};
-    Rectangle bunnyAnimRight{_width/_numberOfFrames * frame, 42.0f, _width/_numberOfFrames, _height/_numberOfFrames};
-    Rectangle bunnyAnimLeft{_width * frame, 63.0f, _width, _height};
+    Rectangle animation {_width * frame, 21.0f, _width, _height};
+
+    switch (_direction)
+    {
+        case UP:
+            animation = {_width * frame, 21.0f, _width, _height};
+            break;
+        case DOWN:
+            animation = {_width * frame, 0.0f, _width, _height};
+            break;
+        case LEFT:
+            animation = {_width * frame, 63.0f, _width, _height};
+            break;
+        case RIGHT:
+            animation = {_width * frame, 42.0f, _width, _height};
+            break;
+    }
+    
     Rectangle dest{_position.x, _position.y, 4.0f * _width, 4.0f * _height};
-    DrawTexturePro(_texture, bunnyAnimLeft, dest, Vector2{}, 0.0f, WHITE);
+    DrawTexturePro(_texture, animation, dest, Vector2{}, 0.0f, WHITE);
 }
 
 // void Agent::AddBehaviour(IBehaviour* behaviour)
