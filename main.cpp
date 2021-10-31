@@ -1,11 +1,38 @@
 #include "raylib.h"
 #include "Agent.h"
+#include "Dijkstras.h"
+#include "Graph.h"
+#include <vector>
+#include <iostream>
+#include "Grid.h"
 
 int main()
 {
     const int windowWidth{640};
     const int windowHeight{640};
+    
+    std::vector<Node> nodeList;
+    Grid* grid = new Grid(10, 10, 16);
 
+    grid->MakeGrid(nodeList);
+
+    Dijkstras dijkstrasSearch;
+
+    auto path = dijkstrasSearch.DijkstrasSearch(&nodeList[22], &nodeList[57]);
+
+    std::vector<int> mapData = {1,1,1,1,1,1,1,1,1,1,
+                1,1,1,1,1,1,1,1,1,1,
+                1,1,0,0,0,0,1,1,1,1,
+                1,1,0,1,0,0,1,1,1,1,
+                1,1,0,0,0,0,0,0,1,1,
+                1,1,0,0,0,0,1,0,1,1,
+                1,1,0,0,0,0,0,0,1,1,
+                1,1,0,0,0,0,0,0,1,1,
+                1,1,1,1,1,1,1,1,1,1,
+                1,1,1,1,1,1,1,1,1,1};
+
+    const int tileSize = 16;
+    
     InitWindow(windowWidth, windowHeight, "BushlandSimulator");
 
     Texture2D map = LoadTexture("tileset/world_map.png");
@@ -22,7 +49,11 @@ int main()
         Vector2 mapPos {0,0};
         // draw map
         DrawTextureEx(map, mapPos, 0.0, 4.0, WHITE);
-
+        grid->DrawGrid();
+        // draw path
+        grid->DrawPath(path);
+        // highlight obstacles
+        grid->DrawMap(mapData);
         // draw bunny
         bunny->Update(GetFrameTime());
         bunny->Draw();
@@ -32,8 +63,9 @@ int main()
 
     UnloadTexture(map); 
        
-
     CloseWindow();  
 }
+
+
 
 

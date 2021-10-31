@@ -1,7 +1,7 @@
 #include "Agent.h"
 #include "raymath.h"
 //#include "IBehaviour.h"
-#include <iostream>
+
 
 Agent::Agent()
 {
@@ -61,8 +61,6 @@ void Agent::Update(float deltaTime)
     {
         _direction = LEFT;
         _position.x -= _moveSpeed * deltaTime;
-        std::cout << "x: "  << _position.x << std::endl;
-
     }
     if (IsKeyDown(KEY_D))
     {
@@ -113,7 +111,7 @@ void Agent::Draw()
             break;
     }
     
-    Rectangle dest{_position.x, _position.y, 4.0f * _width, 4.0f * _height};
+    Rectangle dest{_position.x - _width / 2, _position.y - _height / 2, 4.0f * _width, 4.0f * _height};
     DrawTexturePro(_texture, animation, dest, Vector2{}, 0.0f, WHITE);
 }
 
