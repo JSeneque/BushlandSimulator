@@ -91,7 +91,8 @@ void Grid::DrawPath(std::list<const Node*> path)
             float iy = (id / _map_x_dim) * _tileSize * 4 + _tileSize * 4 / 2;
             float jx = (jd % _map_x_dim) * _tileSize * 4 + _tileSize * 4 / 2;
             float jy = (jd / _map_x_dim) * _tileSize * 4 + _tileSize * 4 / 2;
-            DrawLine(ix, iy, jx, jy, RED);
+            //DrawLine(ix, iy, jx, jy, RED);
+            DrawLineEx({ix, iy}, {jx, jy}, 5, RED);
         }
     }
 }

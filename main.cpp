@@ -32,7 +32,7 @@ int main()
     
 
     Dijkstras dijkstrasSearch;
-    auto path = dijkstrasSearch.DijkstrasSearch(&nodeList[22], &nodeList[57]);
+    auto path = dijkstrasSearch.DijkstrasSearch(&nodeList[22], &nodeList[67]);
 
     
 
