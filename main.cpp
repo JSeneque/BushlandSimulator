@@ -10,9 +10,12 @@ int main()
 {
     const int windowWidth{640};
     const int windowHeight{640};
+    const int mapWidth = 10;
+    const int mapHeight = 10;
+    const int tileSize = 16;
     
     std::vector<Node> nodeList;
-    Grid* grid = new Grid(10, 10, 16);
+    Grid* grid = new Grid(mapWidth, mapHeight, tileSize);
 
     std::vector<int> mapData = {1,1,1,1,1,1,1,1,1,1,
                 1,1,1,1,1,1,1,1,1,1,
@@ -27,22 +30,16 @@ int main()
 
     grid->MakeGrid(nodeList, mapData);
 
-    
-
-    
-
     Dijkstras dijkstrasSearch;
     auto path = dijkstrasSearch.DijkstrasSearch(&nodeList[22], &nodeList[67]);
 
-    
-
-    const int tileSize = 16;
-    
     InitWindow(windowWidth, windowHeight, "BushlandSimulator");
 
     Texture2D map = LoadTexture("tileset/world_map.png");
     
     Agent* bunny = new Agent(Vector2{320,320}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
+    bunny->SetMapWidth(mapWidth);
+    bunny->SetTileSize(tileSize);
 
     SetTargetFPS(60);
 
@@ -57,8 +54,10 @@ int main()
         grid->DrawGrid();
         // draw path
         grid->DrawPath(path);
+        bunny->SetPath(path);
+        //bunny->FollowPath(mapWidth, tileSize, path);
         // highlight obstacles
-        grid->DrawMap(mapData);
+        //grid->DrawMap(mapData);
         // draw bunny
         bunny->Update(GetFrameTime());
         bunny->Draw();

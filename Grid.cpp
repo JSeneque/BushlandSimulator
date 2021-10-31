@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "Agent.h"
 
 // use division to check top and bottom
 // use modulus to check left and right
@@ -79,7 +80,7 @@ void Grid::DrawGrid()
     
 }
 
-void Grid::DrawPath(std::list<const Node*> path)
+void Grid::DrawPath(std::vector<const Node*> path)
 {
     if(path.size() > 2)
     {
@@ -93,6 +94,22 @@ void Grid::DrawPath(std::list<const Node*> path)
             float jy = (jd / _map_x_dim) * _tileSize * 4 + _tileSize * 4 / 2;
             //DrawLine(ix, iy, jx, jy, RED);
             DrawLineEx({ix, iy}, {jx, jy}, 5, RED);
+        }
+    }
+}
+
+void Grid::MoveAgentAlongPath(std::list<const Node*> path, Agent* agent)
+{
+    if(path.size() > 2)
+    {
+        for (auto i = path.begin(); i != path.end(); ++i)
+        {
+            int id = (*i)->id;
+            float ix = (id % _map_x_dim) * _tileSize * 4 ;
+            float iy = (id / _map_x_dim) * _tileSize * 4 ;
+            
+            // move agent
+            agent->SetPosition({ix, iy});
         }
     }
 }

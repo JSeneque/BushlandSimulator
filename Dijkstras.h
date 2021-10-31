@@ -1,4 +1,4 @@
-#include <list>
+#include <vector>
 #include "Graph.h"
 
 
@@ -8,7 +8,7 @@ public:
     Dijkstras();
     ~Dijkstras();
 
-    std::list<const Node*> DijkstrasSearch(Node* startNode, Node* endNode);
+    std::vector<const Node*> DijkstrasSearch(Node* startNode, Node* endNode);
     void MakeMap();
 
     

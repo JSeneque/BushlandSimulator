@@ -3,8 +3,10 @@
 #include "raylib.h"
 #include <vector>
 #include <string>
+#include <list>
 
 //class IBehaviour;
+class Node;
 
 enum Direction
 {
@@ -25,6 +27,8 @@ public:
     virtual void Draw();
     // add a behaviour to the agent
     //void AddBehaviour(IBehaviour* behaviour);
+
+    void FollowPath(const int mapWidth, const int tileSize, std::vector<const Node*> path);
 
     void SetPosition(Vector2 pos);
     Vector2 GetPosition();
@@ -49,6 +53,19 @@ public:
         return _numberOfAnimations;
     }
 
+    void SetMapWidth(int width) 
+    {
+        _mapWidth = width;
+    }
+
+    void SetTileSize(int tileSize)
+    {
+        _tileSize = tileSize;
+    }
+    
+    void SetPath(std::vector<const Node*> path);
+    
+
 private:
     Vector2 _position {0.0f, 0.0f};
     Vector2 _velocity;
@@ -69,4 +86,10 @@ private:
     const int maxFrame{4};
     const float updateTime{1.0f/12.0f};
     Direction _direction;
+
+    std::vector<const Node*> _path;
+    int _mapWidth;
+    int _tileSize;
+    int _pathIndex{};
+    bool _stop = false;
 };

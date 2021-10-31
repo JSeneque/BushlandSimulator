@@ -1,6 +1,8 @@
 #include <vector>
 #include "Graph.h"
 
+class Agent;
+
 class Grid
 {
 
@@ -10,9 +12,10 @@ public:
 
     void MakeGrid(std::vector<Node>& input, std::vector<int> mapData);
     void DrawGrid();
-    void DrawPath(std::list<const Node*>);
+    void DrawPath(std::vector<const Node*>);
     void MakeMap(std::vector<int>& mapData);
     void DrawMap(std::vector<int> mapData);
+    void MoveAgentAlongPath(std::list<const Node*> path, Agent* agent);
 
 private:
     int _map_x_dim{0};

@@ -14,7 +14,7 @@ Dijkstras::~Dijkstras()
 
 }
 
-std::list<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNode)
+std::vector<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNode)
 {
     if (!startNode || !endNode)
     {
@@ -23,7 +23,7 @@ std::list<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNode
 
     if (startNode == endNode)
     {
-        return std::list<const Node*>();
+        return std::vector<const Node*>();
     }
 
     // set the running cost on the start node to zero
@@ -89,7 +89,7 @@ std::list<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNode
         }
     }
 
-    std::list<const Node*> path;
+    std::vector<const Node*> path;
     Node* currentNode = endNode;
     if (!endNode->parentNode)
     {
@@ -98,7 +98,8 @@ std::list<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNode
 
     while (currentNode)
     {
-        path.push_front(currentNode);
+        //path.push_front(currentNode);
+        path.insert(path.begin(), currentNode);
         currentNode = currentNode->parentNode;
     }
     return path;

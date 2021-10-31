@@ -1,6 +1,8 @@
 #include "Agent.h"
 #include "raymath.h"
+#include "Graph.h"
 //#include "IBehaviour.h"
+#include <iostream>
 
 
 Agent::Agent()
@@ -44,29 +46,73 @@ void Agent::Update(float deltaTime)
         if (frame > maxFrame) 
             frame = 0;
     }
+
+
+    // set target as first node in path
+    // For each node in the path 
+    //   move agent to that position
+    //   if agent is at position then
+    //      set target to next node in path
+
+    if (!_stop)
+    {
+        if (_path.size() == 0)
+            return;
+
+        auto id = _path[_pathIndex]->id;
+
+        float ix = (id % _mapWidth) * _tileSize * 4 ;
+        float iy = (id / _mapWidth) * _tileSize * 4 ;
+
+        Vector2 targetPosition = {ix, iy};
+        
+        // create a direction to the new position
+        Vector2 toTarget = Vector2Subtract(targetPosition, _position);
+        //normalise the vector
+        toTarget = Vector2Normalize(toTarget);
+        _position = Vector2Add(_position, Vector2Scale(toTarget, _moveSpeed * deltaTime));
+
+        float distance = Vector2Distance(_position, targetPosition);
+
+        if (distance < 1.5)
+        {
+            _pathIndex++;
+            if (_pathIndex >= _path.size())
+            {
+                _pathIndex = _path.size() - 1;
+                _stop = true;
+            }
+                
+        }
+    }
+
+
+    
+
+    
     
     // get keyboard input just to test out the direction
     // matches the animation
-    if (IsKeyDown(KEY_W))
-    {
-        _direction = UP;
-        _position.y -= _moveSpeed * deltaTime;
-    }
-    if (IsKeyDown(KEY_S))
-    {
-        _direction = DOWN;
-        _position.y += _moveSpeed * deltaTime;
-    }
-    if (IsKeyDown(KEY_A))
-    {
-        _direction = LEFT;
-        _position.x -= _moveSpeed * deltaTime;
-    }
-    if (IsKeyDown(KEY_D))
-    {
-        _direction = RIGHT;
-        _position.x += _moveSpeed * deltaTime;
-    }
+    // if (IsKeyDown(KEY_W))
+    // {
+    //     _direction = UP;
+    //     _position.y -= _moveSpeed * deltaTime;
+    // }
+    // if (IsKeyDown(KEY_S))
+    // {
+    //     _direction = DOWN;
+    //     _position.y += _moveSpeed * deltaTime;
+    // }
+    // if (IsKeyDown(KEY_A))
+    // {
+    //     _direction = LEFT;
+    //     _position.x -= _moveSpeed * deltaTime;
+    // }
+    // if (IsKeyDown(KEY_D))
+    // {
+    //     _direction = RIGHT;
+    //     _position.x += _moveSpeed * deltaTime;
+    // }
     
     //Vector2 force = {0,0};
 
@@ -119,6 +165,10 @@ void Agent::Draw()
 // {
 //     _behaviours.push_back(behaviour);
 // }
-
+void Agent::SetPath(std::vector<const Node*> path)
+{
+    _path = path;
+    
+}
 
 
