@@ -8,7 +8,7 @@ public:
     Grid(int rows, int columns, int tileSize);
     ~Grid();
 
-    void MakeGrid(std::vector<Node>& input);
+    void MakeGrid(std::vector<Node>& input, std::vector<int> mapData);
     void DrawGrid();
     void DrawPath(std::list<const Node*>);
     void MakeMap(std::vector<int>& mapData);

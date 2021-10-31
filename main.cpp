@@ -14,12 +14,6 @@ int main()
     std::vector<Node> nodeList;
     Grid* grid = new Grid(10, 10, 16);
 
-    grid->MakeGrid(nodeList);
-
-    Dijkstras dijkstrasSearch;
-
-    auto path = dijkstrasSearch.DijkstrasSearch(&nodeList[22], &nodeList[57]);
-
     std::vector<int> mapData = {1,1,1,1,1,1,1,1,1,1,
                 1,1,1,1,1,1,1,1,1,1,
                 1,1,0,0,0,0,1,1,1,1,
@@ -30,6 +24,17 @@ int main()
                 1,1,0,0,0,0,0,0,1,1,
                 1,1,1,1,1,1,1,1,1,1,
                 1,1,1,1,1,1,1,1,1,1};
+
+    grid->MakeGrid(nodeList, mapData);
+
+    
+
+    
+
+    Dijkstras dijkstrasSearch;
+    auto path = dijkstrasSearch.DijkstrasSearch(&nodeList[22], &nodeList[57]);
+
+    
 
     const int tileSize = 16;
     

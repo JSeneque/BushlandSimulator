@@ -17,7 +17,7 @@ Grid::~Grid()
 
 }
 
-void Grid::MakeGrid(std::vector<Node>& nodeList)
+void Grid::MakeGrid(std::vector<Node>& nodeList, std::vector<int> mapData)
 {
     nodeList.clear();
     nodeList.resize(_map_x_dim * _map_y_dim);
@@ -32,28 +32,26 @@ void Grid::MakeGrid(std::vector<Node>& nodeList)
     {
         //nodeList[i].id = i;
 
+        auto assignWeight = [&](int id) {
+            float weight = mapData[id] == 1 ? 1000000.0f : 1.0f;
+            nodeList[i].outgoingEdges.push_back(Edge{&nodeList[id], weight});
+        };
+
         // if can add to left
         if(i % _map_x_dim != 0)
-        {
-            nodeList[i].outgoingEdges.push_back(Edge{&nodeList[i - 1], 1.0f});
-        }
+            assignWeight(i - 1);
         
         // if can add to the right
         if((i + 1) % _map_x_dim != 0)
-        {
-            nodeList[i].outgoingEdges.push_back(Edge{&nodeList[i + 1], 1.0f});
-        }
+            assignWeight(i + 1);
 
         // if can add above
         if (i / _map_x_dim != _map_y_dim - 1)
-        {
-            nodeList[i].outgoingEdges.push_back(Edge{&nodeList[i + _map_x_dim], 1.0f});
-        }
+            assignWeight(i + _map_x_dim);
+        
         // if can add below
         if (i / _map_x_dim != 0)
-        {
-            nodeList[i].outgoingEdges.push_back(Edge{&nodeList[i - _map_x_dim], 1.0f});
-        }
+            assignWeight(i - _map_x_dim);
     }
     
 }
