@@ -76,6 +76,7 @@ void Agent::Update(float deltaTime)
 
         if (distance < 1.5)
         {
+            _currentID = _path[_pathIndex]->id;
             _pathIndex++;
             if (_pathIndex >= _path.size())
             {
@@ -83,6 +84,25 @@ void Agent::Update(float deltaTime)
                 _stop = true;
             }
                 
+        }
+
+        // determine direction travelled to we can play the right animation
+        // heading right
+        if (_currentID == _path[_pathIndex]->id - 1)
+        {
+            _direction = RIGHT;
+        }
+        if (_currentID == _path[_pathIndex]->id + 1)
+        {
+            _direction = LEFT;
+        }
+        if(_currentID == _path[_pathIndex]->id - _mapHeight)
+        {
+            _direction = DOWN;
+        }
+        if(_currentID == _path[_pathIndex]->id + _mapHeight)
+        {
+            _direction = UP;
         }
     }
 

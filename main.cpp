@@ -37,8 +37,9 @@ int main()
 
     Texture2D map = LoadTexture("tileset/world_map.png");
     
-    Agent* bunny = new Agent(Vector2{320,320}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
+    Agent* bunny = new Agent(Vector2{112,112}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
     bunny->SetMapWidth(mapWidth);
+    bunny->SetMapHeight(mapHeight);
     bunny->SetTileSize(tileSize);
 
     SetTargetFPS(60);
@@ -51,13 +52,19 @@ int main()
         Vector2 mapPos {0,0};
         // draw map
         DrawTextureEx(map, mapPos, 0.0, 4.0, WHITE);
-        grid->DrawGrid();
-        // draw path
-        grid->DrawPath(path);
+        
+        
         bunny->SetPath(path);
         //bunny->FollowPath(mapWidth, tileSize, path);
         // highlight obstacles
-        //grid->DrawMap(mapData);
+        if(IsKeyDown(KEY_SPACE))
+        {   
+            grid->DrawGrid();
+            grid->DrawMap(mapData);
+            // draw path
+            grid->DrawPath(path);
+        }
+        
         // draw bunny
         bunny->Update(GetFrameTime());
         bunny->Draw();

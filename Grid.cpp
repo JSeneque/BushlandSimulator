@@ -134,6 +134,7 @@ void Grid::MakeMap(std::vector<int>& mapData)
 
 void Grid::DrawMap(std::vector<int> mapData)
 {
+    Color colour = {255, 0, 0, 150};
     for (int i = 0; i < mapData.size(); i++)
     {
         if (mapData[i] == 1)
@@ -141,7 +142,7 @@ void Grid::DrawMap(std::vector<int> mapData)
             int x = (( i % _map_x_dim) * _tileSize * 4); //+ //_tileSize * 4 / 2) ;
             int y = ( i / _map_x_dim) * _tileSize * 4; //+ _tileSize * 4 / 2;
 
-            DrawRectangle(x, y, _tileSize * 4, _tileSize * 4, RED);
+            DrawRectangle(x, y, _tileSize * 4, _tileSize * 4, colour);
         }
     }
     

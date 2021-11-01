@@ -58,6 +58,11 @@ public:
         _mapWidth = width;
     }
 
+    void SetMapHeight(int height) 
+    {
+        _mapHeight = height;
+    }
+
     void SetTileSize(int tileSize)
     {
         _tileSize = tileSize;
@@ -89,7 +94,9 @@ private:
 
     std::vector<const Node*> _path;
     int _mapWidth;
+    int _mapHeight;
     int _tileSize;
     int _pathIndex{};
     bool _stop = false;
+    int _currentID;
 };
