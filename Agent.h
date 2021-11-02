@@ -5,7 +5,7 @@
 #include <string>
 #include <list>
 
-//class IBehaviour;
+class IBehaviour;
 class Node;
 
 enum Direction
@@ -26,7 +26,7 @@ public:
     // draw the agent
     virtual void Draw();
     // add a behaviour to the agent
-    //void AddBehaviour(IBehaviour* behaviour);
+    void AddBehaviour(IBehaviour* behaviour);
 
     void FollowPath(const int mapWidth, const int tileSize, std::vector<const Node*> path);
 
@@ -69,8 +69,13 @@ public:
     }
     
     void SetPath(std::vector<const Node*> path);
-    
+    std::vector<const Node*> GetPath() { return _path;}
 
+    float GetHunger() const;
+    void ResetHunger();
+    void UpdateHunger(float deltaTime);
+    bool IsMoving();
+    void SetIsMoving(const bool value);
 private:
     Vector2 _position {0.0f, 0.0f};
     Vector2 _velocity;
@@ -78,7 +83,7 @@ private:
     float _radius {5.0f};
     Color _colour {BLUE};
 
-    //std::vector<IBehaviour*> _behaviours;
+    std::vector<IBehaviour*> _behaviours;
 
     Texture2D _texture;
     float _width{};
@@ -97,6 +102,12 @@ private:
     int _mapHeight;
     int _tileSize;
     int _pathIndex{};
-    bool _stop = false;
+    bool _isMoving = false;
     int _currentID;
+
+    // animal traits
+    float _hunger{};
+    float _maxHunger{20.0f};
+    float _thirst{50.0};
+    bool _isDead{false};
 };

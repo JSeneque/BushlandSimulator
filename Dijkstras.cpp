@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 Dijkstras::Dijkstras() 
 {
@@ -16,12 +17,12 @@ Dijkstras::~Dijkstras()
 
 std::vector<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNode)
 {
-    if (!startNode || !endNode)
+    if (!startNode->id || !endNode->id)
     {
         throw std::runtime_error("Null nodes passed in!");
     }
 
-    if (startNode == endNode)
+    if (startNode->id == endNode->id)
     {
         return std::vector<const Node*>();
     }
@@ -53,8 +54,9 @@ std::vector<const Node*> Dijkstras::DijkstrasSearch(Node* startNode, Node* endNo
         Node* currentNode = openList.front();
 
         // check if the current node is the end node
-        if(currentNode == endNode)
+        if(currentNode->id == endNode->id)
         {
+            endNode = currentNode;
             break;
         }
 
