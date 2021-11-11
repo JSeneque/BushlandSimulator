@@ -5,20 +5,20 @@
 #include "Graph.h"
 
 
-class DeadState : public State {
+class DrinkingState : public State {
 public:
-    DeadState() {};
-    ~DeadState() {};
+    DrinkingState() {};
+    ~DrinkingState() {};
 
     void onUpdate(Agent* agent, float deltaTime) override {};
 
     void onEnter(Agent* agent)
     {
-        std::cout << "Dead state enter\n";
+        std::cout << "Drinking State enter\n";
     }
 
     void onExit(Agent* agent)
     {
-        std::cout << "Dead state exit\n";
+        std::cout << "Drinking State exit\n";
     }
 };

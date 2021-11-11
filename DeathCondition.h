@@ -10,6 +10,6 @@ public:
     ~DeathCondition() {}
 
     bool Test(Agent* agent) const override {
-        return agent->GetHunger() < 0.0f;
+        return agent->GetHunger() <= 0.0f;
     }
 };

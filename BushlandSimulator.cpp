@@ -11,7 +11,10 @@
 #include "HungerCondition.h"
 #include "Transition.h"
 #include "DeadState.h"
+#include "EatingState.h"
 #include "DeathCondition.h"
+#include "EatingCondition.h"
+#include "ReplenishedCondition.h"
 
 int main()
 {
@@ -28,10 +31,10 @@ int main()
     std::vector<int> mapData = {
                 1,1,1,1,1,1,1,1,1,1,
                 1,1,1,1,1,1,1,1,1,1,
-                1,1,0,0,0,0,1,1,1,1,
+                1,1,0,0,0,2,1,1,1,1,
                 1,1,0,1,0,0,1,1,1,1,
                 1,1,0,0,0,0,0,0,1,1,
-                1,1,0,0,0,0,1,0,1,1,
+                1,1,2,0,0,0,1,0,1,1,
                 1,1,0,0,0,0,0,0,1,1,
                 1,1,0,0,0,0,0,0,1,1,
                 1,1,1,1,1,1,1,1,1,1,
@@ -44,33 +47,49 @@ int main()
 
     Texture2D map = LoadTexture("tileset/world_map.png");
     
-    Agent* bunny = new Agent(Vector2{320,320}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
-    bunny->SetMapWidth(mapWidth);
-    bunny->SetMapHeight(mapHeight);
-    bunny->SetTileSize(tileSize);
-
     // setup states
     auto wanderState = new WanderState(nodeList, mapData);
     wanderState->SetTileSize(tileSize, 4);
-    auto searchForFoodState = new SearchFoodState();
+    auto searchForFoodState = new SearchFoodState(nodeList, mapData, mapWidth);
+    searchForFoodState->SetTileSize(tileSize, 4);
     auto deathState = new DeadState();
+    auto eatingState = new EatingState();
 
     // setup conditions
-    auto hungerCondition = new HungerCondition();
+    auto hungerCondition = new HungerCondition(10.0f);
     auto deathCondition = new DeathCondition();
+    auto eatingCondition = new EatingCondition();
+    auto replendishedCondition = new ReplendishedCondition();
 
     // setup transitions
     auto toSearchFoodTransition = new Transition(searchForFoodState, hungerCondition);
     auto toDeathTransition = new Transition(deathState, deathCondition);
+    auto toEatingTransition = new Transition(eatingState, eatingCondition);
+    auto toWanderTransition = new Transition(wanderState, replendishedCondition);
 
     wanderState->AddTransition(toSearchFoodTransition);
     searchForFoodState->AddTransition(toDeathTransition);
+    searchForFoodState->AddTransition(toEatingTransition);
+    eatingState->AddTransition(toWanderTransition);
 
     FiniteStateMachine bunnyBehaviour;
     bunnyBehaviour.AddState(wanderState);
     bunnyBehaviour.AddState(searchForFoodState);
     bunnyBehaviour.AddState(deathState);
+    bunnyBehaviour.AddState(eatingState);
     bunnyBehaviour.SetCurrentState(wanderState);
+
+    std::vector<Agent*> bunnies;
+
+    for (int i = 0; i < 4; i++)
+    {
+        Agent* bunny = new Agent(Vector2{320,320}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
+        bunny->SetMapWidth(mapWidth);
+        bunny->SetMapHeight(mapHeight);
+        bunny->SetTileSize(tileSize);
+        bunnies.push_back(bunny);
+    }
+     
 
     SetTargetFPS(60);
 
@@ -86,19 +105,26 @@ int main()
         
         //bunny->FollowPath(mapWidth, tileSize, path);
         // highlight obstacles
-        // if(IsKeyDown(KEY_SPACE))
-        // {   
-            //  grid->DrawGrid();
-            //  grid->DrawMap(mapData);
-             // draw path
-            //  grid->DrawPath(bunny->GetPath());
-         //    
-        // }
+        if(IsKeyDown(KEY_SPACE))
+        {   
+             grid->DrawGrid();
+             grid->DrawMap(mapData);
+             //draw path
+             
+            
+        }
         
         // draw bunny
-        bunnyBehaviour.Update(bunny, GetFrameTime());
-        bunny->Update(GetFrameTime());
-        bunny->Draw();
+        for(auto bunny : bunnies)
+        {
+            bunnyBehaviour.Update(bunny, GetFrameTime());
+            bunny->Update(GetFrameTime());
+            bunny->Draw();
+            if(IsKeyDown(KEY_SPACE)) {
+                grid->DrawPath(bunny->GetPath());
+            }
+        }
+        
 
         EndDrawing();
     }

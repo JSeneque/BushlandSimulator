@@ -10,7 +10,7 @@ class Node;
 
 enum Direction
 {
-    UP, DOWN, LEFT, RIGHT
+    UP, DOWN, LEFT, RIGHT, IDLE
 };
 
 
@@ -27,61 +27,40 @@ public:
     virtual void Draw();
     // add a behaviour to the agent
     void AddBehaviour(IBehaviour* behaviour);
-
     void FollowPath(const int mapWidth, const int tileSize, std::vector<const Node*> path);
-
     void SetPosition(Vector2 pos);
     Vector2 GetPosition();
-
-    float GetWidth()
-    {
-        return _width;
-    }
-
-    float GetHeight()
-    {
-        return _height;
-    }
-
-    int GetNumberOfFrames()
-    {
-        return _numberOfFrames;
-    }
-
-    int GetNumberOfAnimations()
-    {
-        return _numberOfAnimations;
-    }
-
-    void SetMapWidth(int width) 
-    {
-        _mapWidth = width;
-    }
-
-    void SetMapHeight(int height) 
-    {
-        _mapHeight = height;
-    }
-
-    void SetTileSize(int tileSize)
-    {
-        _tileSize = tileSize;
-    }
-    
+    float GetWidth();
+    float GetHeight();
+    int GetNumberOfFrames();
+    int GetNumberOfAnimations();
+    void SetMapWidth(int width);
+    void SetMapHeight(int height);
+    void SetTileSize(int tileSize);
     void SetPath(std::vector<const Node*> path);
     std::vector<const Node*> GetPath() { return _path;}
-
     float GetHunger() const;
     void ResetHunger();
     void UpdateHunger(float deltaTime);
     bool IsMoving();
     void SetIsMoving(const bool value);
+    void SetHasArrived(const bool value);
+    bool GetHasArrived();
+    void ReplenishHunger(float deltaTime);
+    void SetIsEating();
+    const int GetPathIndex();
+    void SetHunger(const float value);
+    const float GetMaxHunger();
+
 private:
     Vector2 _position {0.0f, 0.0f};
     Vector2 _velocity;
     float _moveSpeed{150.0f};
     float _radius {5.0f};
     Color _colour {BLUE};
+    bool _isDead{false};
+    bool _hasArrived {false};
+    bool _isEating{false};
 
     std::vector<IBehaviour*> _behaviours;
 
@@ -107,7 +86,8 @@ private:
 
     // animal traits
     float _hunger{};
-    float _maxHunger{20.0f};
+    float _maxHunger{25.0f};
     float _thirst{50.0};
-    bool _isDead{false};
+
+
 };

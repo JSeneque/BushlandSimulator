@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Graph.h"
+#include "Agent.h"
 
 
 class WanderState : public State {
@@ -14,12 +15,13 @@ public:
 
     void onEnter(Agent* agent)
     {
-        //std::cout << "Wander state enter\n";
+        std::cout << "Wander state enter\n";
+        std::cout << "Agent's Hunger: " << agent->GetHunger() << std::endl;
     }
 
     void onExit(Agent* agent)
     {
-        //std::cout << "Wander state exit\n";
+        std::cout << "Wander state exit\n";
     }
 
     void SetTileSize(int tileSize, int scale)

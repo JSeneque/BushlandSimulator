@@ -6,10 +6,13 @@
 class HungerCondition : public Condition
 {
 public:
-    HungerCondition() {}
+    HungerCondition(float value) : _hungerLimit{value} {}
     ~HungerCondition() {}
 
     bool Test(Agent* agent) const override {
-        return agent->GetHunger() < 5.0f;
+        return agent->GetHunger() < _hungerLimit;
     }
+
+private:
+    float _hungerLimit;
 };

@@ -11,6 +11,8 @@ WanderState::WanderState(std::vector<Node>& nodeList, std::vector<int> obstacleM
     _mapData = obstacleMap;
     _nodeList = nodeList;
 
+    // go through the map data and build a list of 
+    // walkable times
     for (int i = 0; i < _mapData.size(); i++)
     {
         if(_mapData[i] == 0)

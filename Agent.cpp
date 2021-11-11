@@ -5,10 +5,7 @@
 #include <iostream>
 
 
-Agent::Agent()
-{
-    _position = Vector2{};
-}
+Agent::Agent() { _position = Vector2{}; }
 
 Agent::Agent(Vector2 pos, const char *file, float width, float height, int frames, int animations) : 
     _position {pos},
@@ -22,20 +19,10 @@ Agent::Agent(Vector2 pos, const char *file, float width, float height, int frame
 }
 
 
-Agent::~Agent()
-{
-    UnloadTexture(_texture); 
-}
+Agent::~Agent() { UnloadTexture(_texture); }
 
-void Agent::SetPosition(Vector2 pos)
-{
-    _position = pos;
-}
-
-Vector2 Agent::GetPosition()
-{
-    return _position;
-}
+void Agent::SetPosition(Vector2 pos) { _position = pos; }
+Vector2 Agent::GetPosition() { return _position; }
 
 void Agent::Update(float deltaTime)
 {
@@ -54,12 +41,6 @@ void Agent::Update(float deltaTime)
         // lower hunger value
         UpdateHunger(deltaTime);
 
-
-        // set target as first node in path
-        // For each node in the path 
-        //   move agent to that position
-        //   if agent is at position then
-        //      set target to next node in path
 
         if(_isMoving)
         {
@@ -84,8 +65,8 @@ void Agent::Update(float deltaTime)
                 //normalise the vector
                 toTarget = Vector2Normalize(toTarget);
             }
+            _hasArrived = false;
             _position = Vector2Add(_position, Vector2Scale(toTarget, _moveSpeed * deltaTime));
-
             float distance = Vector2Distance(_position, targetPosition);
 
             if (distance < 1.5)
@@ -99,33 +80,25 @@ void Agent::Update(float deltaTime)
 
             if (_pathIndex >= _path.size())
             {
-                //_pathIndex = _path.size() - 1;
                 _pathIndex = 0;
                 _isMoving = false;
+                _hasArrived = true;
             }
 
             // determine direction travelled to we can play the right animation
-            if (_currentID == _path[_pathIndex]->id - 1)
-            {
+            if (_currentID == _path[_pathIndex]->id - 1) {
                 _direction = RIGHT;
-            } else if (_currentID == _path[_pathIndex]->id + 1)
-            {
+            } else if (_currentID == _path[_pathIndex]->id + 1) {
                 _direction = LEFT;
-            }  else if(_currentID == _path[_pathIndex]->id - _mapHeight)
-            {
+            }  else if(_currentID == _path[_pathIndex]->id - _mapHeight) {
                 _direction = DOWN;
-            } else if(_currentID == _path[_pathIndex]->id + _mapHeight)
-            {
+            } else if(_currentID == _path[_pathIndex]->id + _mapHeight) {
                 _direction = UP;
             }
-            else {
-                 std::cout << "currentId: " << _currentID << "pathindex: " << _path[_pathIndex]->id << std::endl;
-            }
-            
-            
         }
-
-        
+        else {
+            _direction = IDLE;
+        }
     }
 }
 
@@ -148,48 +121,60 @@ void Agent::Draw()
         case RIGHT:
             animation = {_width * frame, 42.0f, _width, _height};
             break;
+        default:
+            animation = {_width * frame, 21.0f, _width, _height};
     }
     
     Rectangle dest{_position.x - _width / 2, _position.y - _height / 2, 4.0f * _width, 4.0f * _height};
     DrawTexturePro(_texture, animation, dest, Vector2{}, 0.0f, WHITE);
 }
 
-void Agent::AddBehaviour(IBehaviour* behaviour)
-{
-    _behaviours.push_back(behaviour);
+void Agent::AddBehaviour(IBehaviour* behaviour) { _behaviours.push_back(behaviour); }
+void Agent::SetPath(std::vector<const Node*> path) { 
+    _path = path; 
+    _pathIndex = 0;    
+}
+float Agent::GetHunger() const { return _hunger; }
+void Agent::ResetHunger() { _hunger = _maxHunger; }
+bool Agent::IsMoving() { return _isMoving; }
+void Agent::SetIsMoving(const bool value) { _isMoving = value; }
+float Agent::GetWidth() { return _width; }
+float Agent::GetHeight() { return _height; }
+int Agent::GetNumberOfFrames() { return _numberOfFrames; }
+int Agent::GetNumberOfAnimations() { return _numberOfAnimations; }
+void Agent::SetMapWidth(int width) { _mapWidth = width; }
+void Agent::SetMapHeight(int height) { _mapHeight = height; }
+void Agent::SetTileSize(int tileSize) { _tileSize = tileSize; }
+void Agent::SetHasArrived(const bool value) { _hasArrived = value;}
+bool Agent::GetHasArrived() { return _hasArrived;}
+void Agent::SetIsEating() { _isEating = true; }
+
+const int Agent::GetPathIndex() { return _pathIndex;}
+
+void Agent::ReplenishHunger(float deltaTime) {
+     
 }
 
-void Agent::SetPath(std::vector<const Node*> path)
-{
-    _path = path;
-    
-}
+void Agent::SetHunger(const float value) { _hunger = value; }
+const float Agent::GetMaxHunger() { return _maxHunger; }
 
-float Agent::GetHunger() const
-{
-    return _hunger;
-}
-
-void Agent::ResetHunger()
-{
-    _hunger = _maxHunger;
-}
 
 void Agent::UpdateHunger(float deltaTime)
 {
-    _hunger -= deltaTime;
+    if (_isEating) {
+        _hunger += (20 * deltaTime);
+        if (_hunger >= _maxHunger) {
+            _isEating = false;
+        }
+    } else {
+        _hunger -= deltaTime;
 
-    if (_hunger <= 0.0f)
-        _isDead = true;
+        if (_hunger <= 0.0f) {
+            _hunger = 0.0f;
+            _isDead = true;
+        }
+    }
 }
 
-bool Agent::IsMoving()
-{
-    return _isMoving;
-}
 
-void Agent::SetIsMoving(const bool value)
-{
-    _isMoving = value;
-}
 
