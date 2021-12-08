@@ -98,6 +98,17 @@ void Grid::DrawPath(std::vector<const Node*> path)
     }
 }
 
+// void Grid::DrawProcessedNode(std::vector<Node> list)
+// {
+//     for (auto node : list)
+//     {
+//         if (node.runningCost < std::numeric_limits<float>::max())
+//         {
+//             DrawCircleV(node.position, 5, BLUE);
+//         }
+//     }
+// }
+
 void Grid::MoveAgentAlongPath(std::list<const Node*> path, Agent* agent)
 {
     if(path.size() > 2)

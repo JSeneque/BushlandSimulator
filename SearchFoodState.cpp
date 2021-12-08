@@ -1,8 +1,9 @@
 #include "SearchFoodState.h"
-#include "Dijkstras.h"
+//#include "Dijkstras.h"
 #include <cstdlib>
 #include "Agent.h"
 #include "raymath.h"
+#include "AStar.h"
 
 SearchFoodState::SearchFoodState(std::vector<Node>& nodeList, std::vector<int> foodMap,int mapWidth)
 {
@@ -58,10 +59,12 @@ void SearchFoodState::onUpdate(Agent* agent, float deltaTime)
                 }
             }
 
-            Dijkstras dijkstrasSearch;
+            //Dijkstras dijkstrasSearch;
+            AStar aStarSearch;
 
             // create a path from the bunny's current position to the target
-            auto path = dijkstrasSearch.DijkstrasSearch(&_nodeList[index], &_nodeList[destination]);
+            //auto path = dijkstrasSearch.DijkstrasSearch(&_nodeList[index], &_nodeList[destination]);
+            auto path = aStarSearch.AStarSearch(&_nodeList[index], &_nodeList[destination]);
             
             agent->SetPath(path);
             agent->SetIsMoving(true);

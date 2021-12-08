@@ -1,6 +1,7 @@
 #include "WanderState.h"
 #include <iostream>
-#include "Dijkstras.h"
+//#include "Dijkstras.h"
+#include "AStar.h"
 #include "Agent.h"
 #include <unordered_set>
 #include <algorithm>
@@ -47,10 +48,13 @@ void WanderState::onUpdate(Agent* agent, float deltaTime)
             destination = _walkableTiles[rand() % _walkableTiles.size()];
         } while (index == destination);
 
-        Dijkstras dijkstrasSearch;
+        //Dijkstras dijkstrasSearch;
+        AStar aStarSearch;
 
         // create a path from the bunny's current position to the target
-        auto path = dijkstrasSearch.DijkstrasSearch(&_nodeList[index], &_nodeList[destination]);
+        //auto path = dijkstrasSearch.DijkstrasSearch(&_nodeList[index], &_nodeList[destination]);
+        auto path = aStarSearch.AStarSearch(&_nodeList[index], &_nodeList[destination]);
+        
         
         agent->SetPath(path);
         agent->SetIsMoving(true);

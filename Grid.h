@@ -16,6 +16,7 @@ public:
     void MakeMap(std::vector<int>& mapData);
     void DrawMap(std::vector<int> mapData);
     void MoveAgentAlongPath(std::list<const Node*> path, Agent* agent);
+    //void DrawProcessedNode(std::vector<Node> list);
 
 private:
     int _map_x_dim{0};

@@ -2,6 +2,7 @@
 #include <vector>
 #include <stdexcept>
 #include <algorithm>
+#include "raymath.h"
 
 std::vector<const Node*> AStar::AStarSearch(Node* startNode, Node* endNode)
 {
@@ -100,19 +101,21 @@ std::vector<const Node*> AStar::AStarSearch(Node* startNode, Node* endNode)
     return path;
 }
 
-float AStar::Heuristic(const Node* current, const Node* end, HeuristicFn h = DISTANCE)
+float AStar::Heuristic(const Node* current, const Node* end, HeuristicFn h)
 {
     switch (h)
     {
-    case HeuristicFn::DISTANCE:
-        /* code */
+    case HeuristicFn::DISTANCE: {
+        return Vector2Distance(current->position, end->position);
         break;
-    case HeuristicFn:: MANHATTAN_DISTANCE:
+    }
+    case HeuristicFn:: MANHATTAN_DISTANCE: {
+        auto d = Vector2Subtract(end->position, current->position);
+        return abs(d.x) + abs(d.y);
         break;
-    case HeuristicFn::DIAGONAL_SHORTCUT:
-        break;    
+    }
     default:
         break;
     }
-    return 1.0;
+    return 0;
 }

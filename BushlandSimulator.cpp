@@ -81,7 +81,7 @@ int main()
 
     std::vector<Agent*> bunnies;
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 20; i++)
     {
         Agent* bunny = new Agent(Vector2{320,320}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
         bunny->SetMapWidth(mapWidth);
@@ -109,9 +109,9 @@ int main()
         {   
              grid->DrawGrid();
              grid->DrawMap(mapData);
-             //draw path
              
-            
+             // draw nodes processed by A star algorithm
+             //grid->DrawProcessedNode(nodeList);
         }
         
         // draw bunny
