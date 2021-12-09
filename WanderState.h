@@ -17,6 +17,7 @@ public:
     {
         std::cout << "Wander state enter\n";
         std::cout << "Agent's Hunger: " << agent->GetHunger() << std::endl;
+        agent->DrawStateText("Wander");
     }
 
     void onExit(Agent* agent)

@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include "UIBar.h"
+#include "UIText.h"
 
 class IBehaviour;
 class Node;
@@ -53,6 +54,7 @@ public:
     void SetHunger(const float value);
     const float GetMaxHunger();
     const void DrawUI();
+    const void DrawStateText(char* text);
 
 private:
     Vector2 _position {0.0f, 0.0f};
@@ -93,6 +95,6 @@ private:
 
     // UI
     UIBar *hungerBar = new UIBar();
-
+    UIText *stateText = new UIText("", 10, WHITE);
 
 };

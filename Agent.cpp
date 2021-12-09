@@ -99,6 +99,7 @@ void Agent::Update(float deltaTime)
             // update UI with it
             hungerBar->SetValue(_hunger/_maxHunger);
             hungerBar->SetPosition(this->_position, {10,-20});
+            
         }
         else {
             _direction = IDLE;
@@ -183,6 +184,12 @@ void Agent::UpdateHunger(float deltaTime)
 const void Agent:: DrawUI()
 {
     hungerBar->Draw();
+}
+
+const void Agent::DrawStateText(char* text)
+{
+    stateText->SetText(text);
+    stateText->Draw();
 }
 
 
