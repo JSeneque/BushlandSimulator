@@ -95,6 +95,10 @@ void Agent::Update(float deltaTime)
             } else if(_currentID == _path[_pathIndex]->id + _mapHeight) {
                 _direction = UP;
             }
+
+            // update UI with it
+            hungerBar->SetValue(_hunger/_maxHunger);
+            hungerBar->SetPosition(this->_position, {10,-10});
         }
         else {
             _direction = IDLE;
@@ -174,6 +178,11 @@ void Agent::UpdateHunger(float deltaTime)
             _isDead = true;
         }
     }
+}
+
+const void Agent:: DrawUI()
+{
+    hungerBar->Draw();
 }
 
 

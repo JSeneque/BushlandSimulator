@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <list>
+#include "UIBar.h"
 
 class IBehaviour;
 class Node;
@@ -51,6 +52,7 @@ public:
     const int GetPathIndex();
     void SetHunger(const float value);
     const float GetMaxHunger();
+    const void DrawUI();
 
 private:
     Vector2 _position {0.0f, 0.0f};
@@ -88,6 +90,9 @@ private:
     float _hunger{};
     float _maxHunger{25.0f};
     float _thirst{50.0};
+
+    // UI
+    UIBar *hungerBar = new UIBar();
 
 
 };

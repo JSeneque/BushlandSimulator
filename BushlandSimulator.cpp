@@ -81,7 +81,7 @@ int main()
 
     std::vector<Agent*> bunnies;
 
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < 1; i++)
     {
         Agent* bunny = new Agent(Vector2{320,320}, "animals/bunny/bunny_animations.png", 21, 21, 4, 6);
         bunny->SetMapWidth(mapWidth);
@@ -122,10 +122,10 @@ int main()
             bunny->Draw();
             if(IsKeyDown(KEY_SPACE)) {
                 grid->DrawPath(bunny->GetPath());
+                bunny->DrawUI();
             }
         }
         
-
         EndDrawing();
     }
 
