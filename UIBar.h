@@ -12,7 +12,7 @@ public:
 private:
     Vector2 _position {0,0};
     int _width {50};
-    int _height {20};
+    int _height {10};
     Color _barColour {RED};
     Color _borderColour {WHITE};
     Color _backgroundColour {BLACK};

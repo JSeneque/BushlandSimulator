@@ -98,7 +98,7 @@ void Agent::Update(float deltaTime)
 
             // update UI with it
             hungerBar->SetValue(_hunger/_maxHunger);
-            hungerBar->SetPosition(this->_position, {10,-10});
+            hungerBar->SetPosition(this->_position, {10,-20});
         }
         else {
             _direction = IDLE;
